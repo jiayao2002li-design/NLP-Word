@@ -29,6 +29,8 @@ word_filter_model/
 ├── train.py                # Fine-tuning script
 ├── predict.py              # Inference / word filter script
 ├── requirements.txt        # Python dependencies
+├── scripts/
+│   └── sklearn_breast_cancer_starter.py  # Sklearn import smoke-check
 ├── real_world_input.txt    # Sample input texts for batch inference
 ├── real_world_predictions.csv  # Saved predictions from a previous run
 ├── EXPLANATION.md          # Step-by-step code explanation (English & Chinese)
@@ -54,7 +56,7 @@ word_filter_model/
 pip install -r requirements.txt
 ```
 
-Requirements: `datasets`, `transformers`, `torch`, `scikit-learn`, `tqdm`.
+Requirements: `datasets`, `transformers`, `torch`, `scikit-learn`, `pandas`, `matplotlib`, `tqdm`.
 
 ### 2. Download the dataset
 
@@ -64,6 +66,16 @@ Download the [Jigsaw Toxic Comment Classification dataset](https://www.kaggle.co
 data/jigsaw/train.csv
 data/jigsaw/test.csv
 data/jigsaw/test_labels.csv
+```
+
+---
+
+## Sklearn starter (scripts)
+
+Smoke-check that `scikit-learn`, `pandas`, and `matplotlib` import cleanly:
+
+```bash
+python scripts/sklearn_breast_cancer_starter.py
 ```
 
 ---
