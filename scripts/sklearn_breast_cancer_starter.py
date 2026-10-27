@@ -129,14 +129,25 @@ def main() -> None:
 
     results_df = pd.DataFrame(results)
 
-    display(
-        results_df.style.format(
-            {
-                "Fidelity": "{:.4f}",
-                "Accuracy": "{:.4f}",
-            }
+    try:
+        display(
+            results_df.style.format(
+                {
+                    "Fidelity": "{:.4f}",
+                    "Accuracy": "{:.4f}",
+                }
+            )
         )
-    )
+    except (AttributeError, ImportError):
+        # .style needs jinja2; fall back for plain script environments
+        print(
+            results_df.to_string(
+                formatters={
+                    "Fidelity": "{:.4f}".format,
+                    "Accuracy": "{:.4f}".format,
+                }
+            )
+        )
 
 
 if __name__ == "__main__":
