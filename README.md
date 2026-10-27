@@ -29,6 +29,13 @@ word_filter_model/
 ├── train.py                # Fine-tuning script
 ├── predict.py              # Inference / word filter script
 ├── requirements.txt        # Python dependencies
+├── scripts/
+│   ├── breast_cancer_surrogate_benchmark.py          # Project benchmark (tabular medical, NOT NLP)
+│   ├── BREAST_CANCER_BENCHMARK_CONCLUSION.md         # Updated EN/中文 conclusion
+│   ├── sklearn_breast_cancer_starter.py              # Stepwise starter (same dataset)
+│   └── sklearn_breast_cancer_starter_EXPLANATION.md  # EN/中文 walkthrough
+├── breast_cancer_surrogate_tree_results.csv          # Benchmark metrics table
+├── breast_cancer_surrogate_fidelity_depth.png        # Fidelity/accuracy vs depth plot
 ├── real_world_input.txt    # Sample input texts for batch inference
 ├── real_world_predictions.csv  # Saved predictions from a previous run
 ├── EXPLANATION.md          # Step-by-step code explanation (English & Chinese)
@@ -54,7 +61,7 @@ word_filter_model/
 pip install -r requirements.txt
 ```
 
-Requirements: `datasets`, `transformers`, `torch`, `scikit-learn`, `tqdm`.
+Requirements: `datasets`, `transformers`, `torch`, `scikit-learn`, `pandas`, `matplotlib`, `tqdm`.
 
 ### 2. Download the dataset
 
@@ -65,6 +72,28 @@ data/jigsaw/train.csv
 data/jigsaw/test.csv
 data/jigsaw/test_labels.csv
 ```
+
+---
+
+## Breast Cancer surrogate benchmark (tabular — not NLP)
+
+Project evaluation for **rule-based explanations of a Random Forest** uses the
+**Breast Cancer Wisconsin** tabular dataset (30 clinical features), not text/NLP.
+
+```bash
+python scripts/breast_cancer_surrogate_benchmark.py
+```
+
+Outputs: `breast_cancer_surrogate_tree_results.csv`, `breast_cancer_surrogate_fidelity_depth.png`.  
+Updated conclusion (EN / 中文): [`scripts/BREAST_CANCER_BENCHMARK_CONCLUSION.md`](scripts/BREAST_CANCER_BENCHMARK_CONCLUSION.md).
+
+Stepwise starter + notes:
+
+```bash
+python scripts/sklearn_breast_cancer_starter.py
+```
+
+[`scripts/sklearn_breast_cancer_starter_EXPLANATION.md`](scripts/sklearn_breast_cancer_starter_EXPLANATION.md).
 
 ---
 
