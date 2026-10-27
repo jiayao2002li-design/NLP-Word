@@ -21,7 +21,11 @@ def main() -> None:
     try:
         from IPython.display import display
     except ImportError:
-        display = print
+
+        def display(obj):
+            # pandas Styler (from .style.format) exposes .data
+            data = getattr(obj, "data", obj)
+            print(data)
 
     # 让表格和图表更容易阅读
     pd.set_option("display.max_columns", None)
@@ -80,6 +84,59 @@ def main() -> None:
     rf_accuracy = accuracy_score(y_test, rf_test_pred)
 
     print(f"Random Forest test accuracy: {rf_accuracy:.4f}")
+
+    # 想比较的最大树深度
+    depth_values = [1, 2, 3, 4, 5, 6]
+
+    results = []
+    surrogate_models = {}
+
+    for depth in depth_values:
+        # 创建指定最大深度的替代决策树
+        surrogate = DecisionTreeClassifier(
+            max_depth=depth,
+            random_state=42,
+        )
+
+        # 重点：学习 Random Forest 的训练集预测，而不是真实标签
+        surrogate.fit(X_train, rf_train_pred)
+
+        # 保存模型，方便之后检查规则
+        surrogate_models[depth] = surrogate
+
+        # 在测试集上进行预测
+        surrogate_test_pred = surrogate.predict(X_test)
+
+        # Fidelity：替代树与 Random Forest 的预测一致比例
+        fidelity = (surrogate_test_pred == rf_test_pred).mean()
+
+        # Accuracy：替代树与数据集真实标签的一致比例
+        accuracy = accuracy_score(y_test, surrogate_test_pred)
+
+        # 复杂度指标
+        actual_depth = surrogate.get_depth()
+        number_of_rules = surrogate.get_n_leaves()
+
+        results.append(
+            {
+                "Max depth setting": depth,
+                "Actual tree depth": actual_depth,
+                "Number of rules": number_of_rules,
+                "Fidelity": fidelity,
+                "Accuracy": accuracy,
+            }
+        )
+
+    results_df = pd.DataFrame(results)
+
+    display(
+        results_df.style.format(
+            {
+                "Fidelity": "{:.4f}",
+                "Accuracy": "{:.4f}",
+            }
+        )
+    )
 
 
 if __name__ == "__main__":
