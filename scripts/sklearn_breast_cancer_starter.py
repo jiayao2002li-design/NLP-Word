@@ -16,7 +16,7 @@ def main() -> None:
     # 2. 导入评估和数据整理工具
     from sklearn.metrics import accuracy_score
     import pandas as pd
-    import matplotlib.pyplot as plt  # noqa: F401
+    import matplotlib.pyplot as plt
 
     try:
         from IPython.display import display
@@ -185,6 +185,21 @@ def main() -> None:
     results_df["Average rule length"] = avg_lengths
 
     show_results_table(results_df)
+
+    plt.figure(figsize=(7, 5))
+
+    plt.plot(
+        results_df["Actual tree depth"],
+        results_df["Fidelity"],
+        marker="o",
+    )
+
+    plt.xlabel("Actual tree depth")
+    plt.ylabel("Fidelity")
+    plt.title("Fidelity vs. Decision Tree Depth")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":
