@@ -2,7 +2,15 @@
 
 This document explains what `scripts/sklearn_breast_cancer_starter.py` does, in **English** and **Chinese**. The Python code itself is left unchanged.
 
-Run the script:
+**Project note:** The official **project benchmark** for this work is tabular Breast Cancer Wisconsin (not NLP). Prefer:
+
+```bash
+python scripts/breast_cancer_surrogate_benchmark.py
+```
+
+Updated research conclusion: [`BREAST_CANCER_BENCHMARK_CONCLUSION.md`](BREAST_CANCER_BENCHMARK_CONCLUSION.md).
+
+Starter script:
 
 ```bash
 python scripts/sklearn_breast_cancer_starter.py
