@@ -212,6 +212,19 @@ def main() -> None:
 
     print(rules_text)
 
+    # 保存实验结果表格
+    results_df.to_csv("surrogate_tree_results.csv", index=False)
+
+    print("Results saved to surrogate_tree_results.csv")
+
+    # 下载到自己的电脑
+    try:
+        from google.colab import files
+
+        files.download("surrogate_tree_results.csv")
+    except ImportError:
+        print("Skipping Colab download (not running in Google Colab).")
+
 
 if __name__ == "__main__":
     main()
