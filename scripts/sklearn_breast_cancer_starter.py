@@ -11,7 +11,7 @@ def main() -> None:
     from sklearn.datasets import load_breast_cancer
     from sklearn.model_selection import train_test_split
     from sklearn.ensemble import RandomForestClassifier
-    from sklearn.tree import DecisionTreeClassifier, export_text  # noqa: F401
+    from sklearn.tree import DecisionTreeClassifier, export_text
 
     # 2. 导入评估和数据整理工具
     from sklearn.metrics import accuracy_score
@@ -200,6 +200,17 @@ def main() -> None:
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.show()
+
+    example_depth = 3
+    example_model = surrogate_models[example_depth]
+
+    rules_text = export_text(
+        example_model,
+        feature_names=list(X.columns),
+        decimals=2,
+    )
+
+    print(rules_text)
 
 
 if __name__ == "__main__":
