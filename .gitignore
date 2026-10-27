@@ -1,7 +1,4 @@
 saved_model/model.safetensors
-surrogate_tree_results.csv
-# Keep committed breast_cancer_surrogate_* benchmark artifacts for the PR;
-# ignore only the starter's generic CSV name above.
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
