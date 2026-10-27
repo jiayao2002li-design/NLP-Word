@@ -10,11 +10,11 @@ def main() -> None:
     # 1. 导入数据集和机器学习模型
     from sklearn.datasets import load_breast_cancer
     from sklearn.model_selection import train_test_split
-    from sklearn.ensemble import RandomForestClassifier  # noqa: F401
+    from sklearn.ensemble import RandomForestClassifier
     from sklearn.tree import DecisionTreeClassifier, export_text  # noqa: F401
 
     # 2. 导入评估和数据整理工具
-    from sklearn.metrics import accuracy_score  # noqa: F401
+    from sklearn.metrics import accuracy_score
     import pandas as pd
     import matplotlib.pyplot as plt  # noqa: F401
 
@@ -63,6 +63,23 @@ def main() -> None:
 
     print("Training samples:", len(X_train))
     print("Testing samples:", len(X_test))
+
+    rf = RandomForestClassifier(
+        n_estimators=100,
+        random_state=42,
+    )
+
+    # 使用真实标签训练原始模型
+    rf.fit(X_train, y_train)
+
+    # Random Forest 对训练集和测试集的预测
+    rf_train_pred = rf.predict(X_train)
+    rf_test_pred = rf.predict(X_test)
+
+    # 原始模型对真实标签的测试准确率
+    rf_accuracy = accuracy_score(y_test, rf_test_pred)
+
+    print(f"Random Forest test accuracy: {rf_accuracy:.4f}")
 
 
 if __name__ == "__main__":
