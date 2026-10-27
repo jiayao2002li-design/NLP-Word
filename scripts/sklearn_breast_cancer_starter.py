@@ -129,25 +129,62 @@ def main() -> None:
 
     results_df = pd.DataFrame(results)
 
-    try:
-        display(
-            results_df.style.format(
-                {
-                    "Fidelity": "{:.4f}",
-                    "Accuracy": "{:.4f}",
-                }
+    format_cols = {
+        "Fidelity": "{:.4f}",
+        "Accuracy": "{:.4f}",
+        "Average rule length": "{:.2f}",
+    }
+
+    def show_results_table(df):
+        try:
+            display(df.style.format({k: v for k, v in format_cols.items() if k in df.columns}))
+        except (AttributeError, ImportError):
+            # .style needs jinja2; fall back for plain script environments
+            print(
+                df.to_string(
+                    formatters={
+                        k: v.format for k, v in format_cols.items() if k in df.columns
+                    }
+                )
             )
-        )
-    except (AttributeError, ImportError):
-        # .style needs jinja2; fall back for plain script environments
-        print(
-            results_df.to_string(
-                formatters={
-                    "Fidelity": "{:.4f}".format,
-                    "Accuracy": "{:.4f}".format,
-                }
-            )
-        )
+
+    show_results_table(results_df)
+
+    def get_rule_lengths(tree_model):
+        """
+        计算决策树中每条根到叶路径的长度。
+        每经过一个分裂节点，就增加一个条件。
+        """
+        tree = tree_model.tree_
+        rule_lengths = []
+
+        def visit(node, depth):
+            left = tree.children_left[node]
+            right = tree.children_right[node]
+
+            # 左右子节点都不存在，说明当前节点是叶节点
+            is_leaf = left == right
+
+            if is_leaf:
+                rule_lengths.append(depth)
+            else:
+                visit(left, depth + 1)
+                visit(right, depth + 1)
+
+        visit(0, 0)
+        return rule_lengths
+
+    # 为每个模型计算平均规则长度
+    avg_lengths = []
+
+    for depth in depth_values:
+        model = surrogate_models[depth]
+        lengths = get_rule_lengths(model)
+        avg_lengths.append(sum(lengths) / len(lengths))
+
+    results_df["Average rule length"] = avg_lengths
+
+    show_results_table(results_df)
 
 
 if __name__ == "__main__":
