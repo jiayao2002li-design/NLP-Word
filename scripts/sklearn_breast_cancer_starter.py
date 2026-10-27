@@ -1,5 +1,5 @@
 """
-Sklearn starter: import breast-cancer dataset tooling and ML models.
+Sklearn starter: breast-cancer Wisconsin load + inspect.
 
 Run from the repo root:
     python scripts/sklearn_breast_cancer_starter.py
@@ -8,7 +8,7 @@ Run from the repo root:
 
 def main() -> None:
     # 1. 导入数据集和机器学习模型
-    from sklearn.datasets import load_breast_cancer  # noqa: F401
+    from sklearn.datasets import load_breast_cancer
     from sklearn.model_selection import train_test_split  # noqa: F401
     from sklearn.ensemble import RandomForestClassifier  # noqa: F401
     from sklearn.tree import DecisionTreeClassifier, export_text  # noqa: F401
@@ -18,10 +18,40 @@ def main() -> None:
     import pandas as pd
     import matplotlib.pyplot as plt  # noqa: F401
 
+    try:
+        from IPython.display import display
+    except ImportError:
+        display = print
+
     # 让表格和图表更容易阅读
     pd.set_option("display.max_columns", None)
 
     print("All libraries imported successfully!")
+
+    # 加载 Breast Cancer Wisconsin 数据集
+    data = load_breast_cancer()
+
+    # X 是输入特征，y 是真实分类标签
+    X = pd.DataFrame(data.data, columns=data.feature_names)
+    y = data.target
+
+    print("Dataset shape:", X.shape)
+    print("Number of features:", X.shape[1])
+    print("Class names:", data.target_names)
+    print("\nFirst 5 rows:")
+    display(X.head())
+
+    print("\nClass counts:")
+    print(
+        pd.Series(y)
+        .value_counts()
+        .rename(
+            index={
+                0: data.target_names[0],
+                1: data.target_names[1],
+            }
+        )
+    )
 
 
 if __name__ == "__main__":
