@@ -30,7 +30,8 @@ word_filter_model/
 ├── predict.py              # Inference / word filter script
 ├── requirements.txt        # Python dependencies
 ├── scripts/
-│   └── sklearn_breast_cancer_starter.py  # Sklearn import smoke-check
+│   ├── sklearn_breast_cancer_starter.py              # RF + surrogate tree exercise
+│   └── sklearn_breast_cancer_starter_EXPLANATION.md  # EN/中文 walkthrough
 ├── real_world_input.txt    # Sample input texts for batch inference
 ├── real_world_predictions.csv  # Saved predictions from a previous run
 ├── EXPLANATION.md          # Step-by-step code explanation (English & Chinese)
@@ -72,11 +73,13 @@ data/jigsaw/test_labels.csv
 
 ## Sklearn starter (scripts)
 
-Smoke-check that `scikit-learn`, `pandas`, and `matplotlib` import cleanly:
+Breast Cancer Wisconsin Random Forest + surrogate decision-tree exercise:
 
 ```bash
 python scripts/sklearn_breast_cancer_starter.py
 ```
+
+Bilingual step-by-step notes (English / 中文): [`scripts/sklearn_breast_cancer_starter_EXPLANATION.md`](scripts/sklearn_breast_cancer_starter_EXPLANATION.md).
 
 ---
 
